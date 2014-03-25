@@ -6,6 +6,10 @@ var play_state = {
         var space_key = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         space_key.onDown.add(this.jump, this); 
 
+        //adding the background
+        this.background1 = this.game.add.sprite(0, 0, 'bg');
+        this.background2 = this.game.add.sprite(760, 0, 'bg');
+
         this.pipes = game.add.group();
         this.pipes.createMultiple(20, 'pipe');  
 
@@ -13,7 +17,7 @@ var play_state = {
 
         this.timer = this.game.time.events.loop(1500, this.add_row_of_pipes, this);           
 
-        //this.bird = this.game.add.sprite(100, 245, 'bird');
+        //adding the flapping bird
         this.bird = this.game.add.sprite(100, 245, 'green_flappy');
         this.bird.body.gravity.y = 1000; 
         this.bird.anchor.setTo(-0.2, 0.5);
@@ -29,6 +33,7 @@ var play_state = {
     },
 
     update: function() {
+
         if (this.bird.inWorld == false)
             this.restart_game(); 
 
@@ -37,8 +42,22 @@ var play_state = {
 
         this.game.physics.overlap(this.bird, this.pipes, this.hit_pipe, null, this);      
         this.game.physics.overlap(this.bird, this.invs, this.add_score, null, this);
+
+        this.moveBackground(this.background1);
+        this.moveBackground(this.background2);
     },
 
+    moveBackground: function(background) {
+
+        if (background.x < -760 ) {
+
+            background.x = 760;
+            background.x -= 0.5;
+        } else {
+            background.x -= 0.5;
+        }
+
+    },
     jump: function() {
         if (this.bird.alive == false)
             return; 
