@@ -13,9 +13,12 @@ var play_state = {
 
         this.timer = this.game.time.events.loop(1500, this.add_row_of_pipes, this);           
 
-        this.bird = this.game.add.sprite(100, 245, 'bird');
+        //this.bird = this.game.add.sprite(100, 245, 'bird');
+        this.bird = this.game.add.sprite(100, 245, 'green_flappy');
         this.bird.body.gravity.y = 1000; 
         this.bird.anchor.setTo(-0.2, 0.5);
+        this.bird.animations.add('flap');
+        this.bird.animations.play('flap', 15, true);
 
         // No 'this.score', but just 'score'
         score = 0; 
