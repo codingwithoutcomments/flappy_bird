@@ -10,6 +10,13 @@ var play_state = {
         this.background1 = this.game.add.sprite(0, 0, 'bg');
         this.background2 = this.game.add.sprite(760, 0, 'bg');
 
+        this.ground1 = this.game.add.sprite(0, 400, 'ground');
+        this.ground2 = this.game.add.sprite(763, 400, 'ground');
+        this.ground1.body.allowGravity = false;
+        this.ground1.body.velocity.x = -200;
+        this.ground2.body.allowGravity = false;
+        this.ground2.body.velocity.x = -200;
+
         this.pipes = game.add.group();
         this.pipes.createMultiple(20, 'pipe');  
 
@@ -23,6 +30,7 @@ var play_state = {
         this.bird.anchor.setTo(-0.2, 0.5);
         this.bird.animations.add('flap');
         this.bird.animations.play('flap', 15, true);
+        this.bird.sitting = false;
 
         // No 'this.score', but just 'score'
         score = 0; 
@@ -34,31 +42,51 @@ var play_state = {
 
     update: function() {
 
-        if (this.bird.inWorld == false)
-            this.restart_game(); 
-
-        if (this.bird.angle < 20)
+        if (this.bird.angle < 20 && this.bird.alive == true)
             this.bird.angle += 1;
 
         this.game.physics.overlap(this.bird, this.pipes, this.hit_pipe, null, this);      
         this.game.physics.overlap(this.bird, this.invs, this.add_score, null, this);
 
+        this.game.physics.overlap(this.bird, this.ground1, this.sit_on_ground, null, this);
+        this.game.physics.overlap(this.bird, this.ground2, this.sit_on_ground, null, this);
+
         this.moveBackground(this.background1);
         this.moveBackground(this.background2);
+
+        this.moveGround(this.ground1);
+        this.moveGround(this.ground2);
+    },
+    moveGround: function(ground) {
+
+        if(this.bird.alive == false) return;
+
+        if (ground.x < - 763 ) {
+
+            ground.x = 763;
+        } 
+
     },
 
     moveBackground: function(background) {
+
+        if(this.bird.alive == false) return;
 
         if (background.x < -760 ) {
 
             background.x = 760;
             background.x -= 0.5;
         } else {
+
             background.x -= 0.5;
         }
 
     },
     jump: function() {
+
+        if(this.bird.sitting == true)
+            this.restart_game();
+
         if (this.bird.alive == false)
             return; 
 
@@ -66,7 +94,19 @@ var play_state = {
         this.game.add.tween(this.bird).to({angle: -20}, 100).start();
         this.jump_sound.play();
     },
+    sit_on_ground: function() {
 
+        if(this.bird.sitting == true)
+            return 
+
+        this.bird.sitting = true;
+        this.bird.y = 375;
+        this.bird.angle = 0;
+        this.bird.body.velocity.y = 0;
+        this.bird.body.gravity.y = 0;
+
+        this.hit_pipe();
+    },
     hit_pipe: function() {
         if (this.bird.alive == false)
             return;
@@ -81,6 +121,9 @@ var play_state = {
         this.invs.forEach(function(inv) {
             inv.body.velocity.x = 0;
         });
+
+        this.ground1.body.velocity.x = 0;
+        this.ground2.body.velocity.x = 0;
     },
     restart_game: function() {
         this.game.time.events.remove(this.timer);
