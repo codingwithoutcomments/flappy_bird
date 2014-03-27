@@ -84,6 +84,9 @@ var play_state = {
     },
     jump: function() {
 
+        if (this.bird.inWorld == false)
+            return
+
         if(this.bird.sitting == true)
             this.restart_game();
 
@@ -104,6 +107,8 @@ var play_state = {
         this.bird.angle = 0;
         this.bird.body.velocity.y = 0;
         this.bird.body.gravity.y = 0;
+        this.bird.animations.stop();
+        this.bird.animations.play('flap', 8, true);
 
         this.hit_pipe();
     },
