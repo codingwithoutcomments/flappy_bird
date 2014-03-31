@@ -1,0 +1,20 @@
+{"frames": {
+
+"green_pipe_down_2.png":
+{
+	"frame": {"x":2,"y":2,"w":53,"h":320},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":53,"h":320},
+	"sourceSize": {"w":53,"h":320}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker ",
+	"version": "1.0",
+	"image": "green_pipe_down_3.png",
+	"format": "RGBA8888",
+	"size": {"w":64,"h":512},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:797098f84ed7c0452fccde4589147a7e:7d9f6ab313e4196eb5173c843e41271c:26a2b29f2e7f97e22ce66f3b8a25ad28$"
+}
+}

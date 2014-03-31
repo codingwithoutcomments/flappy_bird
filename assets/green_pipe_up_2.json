@@ -1,0 +1,20 @@
+{"frames": {
+
+"green_pipe_up.png":
+{
+	"frame": {"x":2,"y":2,"w":53,"h":320},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":53,"h":320},
+	"sourceSize": {"w":53,"h":320}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker ",
+	"version": "1.0",
+	"image": "green_pipe_up_2.png",
+	"format": "RGBA8888",
+	"size": {"w":64,"h":512},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:cc6b52e8f7bc14733127a4944200208b:05cb5b0398b493bb051fc499e283c67d:329ede7c6999e30e4a98706044dc3b91$"
+}
+}

@@ -17,8 +17,11 @@ var play_state = {
         this.ground2.body.allowGravity = false;
         this.ground2.body.velocity.x = -200;
 
-        this.pipes = game.add.group();
-        this.pipes.createMultiple(20, 'pipe');  
+        this.down_pipes = game.add.group();
+        this.down_pipes.createMultiple(20, 'pipe_down');  
+
+        this.up_pipes = game.add.group();
+        this.up_pipes.createMultiple(20, 'pipe_up');  
 
         this.invs = game.add.group();
 
@@ -27,7 +30,7 @@ var play_state = {
         //adding the flapping bird
         this.bird = this.game.add.sprite(100, 245, 'green_flappy');
         this.bird.body.gravity.y = 1000; 
-        this.bird.anchor.setTo(-0.2, 0.5);
+        this.bird.anchor.setTo(-0.4, 0.5);
         this.bird.animations.add('flap');
         this.bird.animations.play('flap', 15, true);
         this.bird.sitting = false;
@@ -45,7 +48,9 @@ var play_state = {
         if (this.bird.angle < 20 && this.bird.alive == true)
             this.bird.angle += 1;
 
-        this.game.physics.overlap(this.bird, this.pipes, this.hit_pipe, null, this);      
+       this.game.physics.overlap(this.bird, this.up_pipes, this.hit_pipe, null, this);      
+       this.game.physics.overlap(this.bird, this.down_pipes, this.hit_pipe, null, this);      
+
         this.game.physics.overlap(this.bird, this.invs, this.add_score, null, this);
 
         this.game.physics.overlap(this.bird, this.ground1, this.sit_on_ground, null, this);
@@ -76,6 +81,7 @@ var play_state = {
 
             background.x = 760;
             background.x -= 0.5;
+
         } else {
 
             background.x -= 0.5;
@@ -119,7 +125,11 @@ var play_state = {
         this.bird.alive = false;
         this.game.time.events.remove(this.timer);
 
-        this.pipes.forEachAlive(function(p){
+        this.up_pipes.forEachAlive(function(p){
+            p.body.velocity.x = 0;
+        }, this);
+
+        this.down_pipes.forEachAlive(function(p){
             p.body.velocity.x = 0;
         }, this);
 
@@ -147,13 +157,22 @@ var play_state = {
 
         var hole = Math.floor(Math.random()*5)+1;
 
-        var pipes = new Array()
+        var START_POINT_OF_DOWN_PIPE = -240;
+        var FIRST_PIPE_RANDOMNESS = Math.floor(Math.random()*150)+1;
+        var HOLE_LENGTH = 105;
 
-        for (var i = 0; i < 8; i++)
-            if (i != hole && i != hole+1) 
-                pipes.push(this.add_one_pipe(800, i*60+10));
+        var down_pipe = this.down_pipes.getFirstDead();
+        down_pipe.reset(800, START_POINT_OF_DOWN_PIPE + FIRST_PIPE_RANDOMNESS);
+        down_pipe.body.velocity.x = -200;
+        down_pipe.outOfBoundsKill = true;
 
-        var single_pipe = pipes[0]
+        var up_pipe = this.up_pipes.getFirstDead();
+        var Y_POSITION_OF_UP_PIPE = START_POINT_OF_DOWN_PIPE + down_pipe.height + FIRST_PIPE_RANDOMNESS + HOLE_LENGTH;
+        up_pipe.reset(800, Y_POSITION_OF_UP_PIPE);
+        up_pipe.body.velocity.x = -200;
+        up_pipe.outOfBoundsKill = true;
+
+        var single_pipe = down_pipe
         var inv = this.invs.create(single_pipe.x + single_pipe.width, 0);
         inv.width = 2;
         inv.height = game.world.height;
