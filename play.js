@@ -10,18 +10,18 @@ var play_state = {
         this.background1 = this.game.add.sprite(0, 0, 'bg');
         this.background2 = this.game.add.sprite(760, 0, 'bg');
 
+        this.down_pipes = game.add.group();
+        this.down_pipes.createMultiple(20, 'pipe_down');  
+
+        this.up_pipes = game.add.group();
+        this.up_pipes.createMultiple(20, 'pipe_up');  
+
         this.ground1 = this.game.add.sprite(0, 400, 'ground');
         this.ground2 = this.game.add.sprite(763, 400, 'ground');
         this.ground1.body.allowGravity = false;
         this.ground1.body.velocity.x = -200;
         this.ground2.body.allowGravity = false;
         this.ground2.body.velocity.x = -200;
-
-        this.down_pipes = game.add.group();
-        this.down_pipes.createMultiple(20, 'pipe_down');  
-
-        this.up_pipes = game.add.group();
-        this.up_pipes.createMultiple(20, 'pipe_up');  
 
         this.invs = game.add.group();
 
