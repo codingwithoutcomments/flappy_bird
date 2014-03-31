@@ -159,7 +159,7 @@ var play_state = {
 
         var START_POINT_OF_DOWN_PIPE = -240;
         var FIRST_PIPE_RANDOMNESS = Math.floor(Math.random()*150)+1;
-        var HOLE_LENGTH = 105;
+        var HOLE_LENGTH = 100;
 
         var down_pipe = this.down_pipes.getFirstDead();
         down_pipe.reset(800, START_POINT_OF_DOWN_PIPE + FIRST_PIPE_RANDOMNESS);
