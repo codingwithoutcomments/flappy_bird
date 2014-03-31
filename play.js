@@ -40,7 +40,6 @@ var play_state = {
         var style = { font: "30px Arial", fill: "#ffffff" };
         this.label_score = this.game.add.text(20, 20, "0", style); 
 
-        this.jump_sound = this.game.add.audio('jump');
     },
 
     update: function() {
@@ -101,7 +100,6 @@ var play_state = {
 
         this.bird.body.velocity.y = -350;
         this.game.add.tween(this.bird).to({angle: -20}, 100).start();
-        this.jump_sound.play();
     },
     sit_on_ground: function() {
 
